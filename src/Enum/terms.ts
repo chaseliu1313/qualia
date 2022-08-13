@@ -1,4 +1,5 @@
-export enum menuItem  {
+/* eslint-disable no-unused-vars */
+export enum menuItem {
     quintessential='Quintessential',
     unlimited='Unlimited',
     aesthetic='Aesthetic',
@@ -7,4 +8,4 @@ export enum menuItem  {
     aspiring='Aspiring'
 };
 
-export const qualia = 'Qualia'
+export const qualia = 'Qualia';

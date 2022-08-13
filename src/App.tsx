@@ -1,12 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import BodyContainer from "./Component/body";
+import { CoreContextProvider } from "./Context/coreState.context";
+
+import "./styles/App.css";
 
 function App() {
   return (
-    <div className="App">
-      
-    </div>
+    <CoreContextProvider>
+      <div className="App">
+        <BodyContainer />
+      </div>
+    </CoreContextProvider>
   );
 }
 

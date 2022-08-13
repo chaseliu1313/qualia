@@ -1,8 +1,9 @@
 .App {
   text-align: center;
-  background-color: aquamarine;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
  
