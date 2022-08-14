@@ -36,7 +36,7 @@ const Container = styled(animated.div)`
   height: 400px;
   width: 200px;
   position: fixed;
-  top: 100px;
+  top: 150px;
   left: 50px;
   display: flex;
   flex-direction: column;
