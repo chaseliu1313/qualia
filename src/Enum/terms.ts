@@ -3,8 +3,8 @@ export enum menuItem {
     quintessential='Quintessential',
     unlimited='Unlimited',
     aesthetic='Aesthetic',
-    international='International',
     luxury = 'Luxury',
+    international='International',
     aspiring='Aspiring'
 };
 

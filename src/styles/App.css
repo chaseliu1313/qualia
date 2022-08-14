@@ -1,9 +1,8 @@
 .App {
   text-align: center;
   height: 100%;
-  width: 100vw;
-  overflow-x: hidden;
-  overflow-y: auto;
+  width: 100%;
+ overflow: auto;
 }
 
  

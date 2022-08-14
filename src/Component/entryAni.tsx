@@ -50,7 +50,6 @@ const EntryAni = (): ReactElement => {
         playing={play}
         height={screen.height}
         width={screen.width}
-        style={{ overflow: "hidden" }}
         onEnded={() => {
           setExit(true);
         }}
@@ -64,6 +63,7 @@ const Container = styled(animated.div)`
   width: 100vw;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 `;
 
 export default EntryAni;
