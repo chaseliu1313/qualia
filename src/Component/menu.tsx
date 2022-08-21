@@ -1,12 +1,18 @@
 import React, { ReactElement, useState } from "react";
-import { animated, config, useTransition } from "react-spring";
+import { animated, config, useSpring, useTransition } from "react-spring";
 import styled from "styled-components";
 import { menuItem } from "../Enum";
+const logo = require("../Asset/Img/Qualia-Logo.png");
 
 const Menu = (): ReactElement => {
   const itemLabels = Object.values(menuItem);
 
   const [items, setItems] = useState<string[]>(itemLabels);
+  const logoAni = useSpring({
+    to: { opacity: 1, x: 0 },
+    from: { opacity: 0, x: -200 },
+    config: { duration: 1500 },
+  });
 
   const entryTransitions = useTransition(items, {
     from: { opacity: 0, x: -100 },
@@ -19,11 +25,14 @@ const Menu = (): ReactElement => {
 
   return (
     <Container>
-      {entryTransitions((props, item) => (
-        <ItemContainer style={props}>
-          <ItemText>{item}</ItemText>
-        </ItemContainer>
-      ))}
+      <LogoImg src={logo} style={logoAni} />
+      <MenuContainer>
+        {entryTransitions((props, item) => (
+          <ItemContainer style={props}>
+            <ItemText>{item}</ItemText>
+          </ItemContainer>
+        ))}
+      </MenuContainer>
     </Container>
   );
 };
@@ -33,26 +42,45 @@ export default Menu;
 //fly in one by one
 //
 const Container = styled(animated.div)`
-  height: 400px;
-  width: 200px;
+  height: 450px;
+  width: 180px;
   position: fixed;
   top: 150px;
-  left: 50px;
+  left: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
+`;
+
+const MenuContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 270px;
+  width: 100%;
+  padding-left: 15px;
+  background-color: #ffffff;
+  border-radius: 15px;
 `;
 
 const ItemContainer = styled(animated.div)`
-  width: 200px;
+  width: 180px;
   height: 45px;
   text-align: left;
   cursor: pointer;
 `;
 
 const ItemText = styled.h3`
-  font-size: 21px;
+  font-size: 17px;
   font-weight: 200;
   color: #353535;
+`;
+
+const LogoImg = styled(animated.img)`
+  position: absolute;
+  top: 0px;
+  left: -50px;
 `;

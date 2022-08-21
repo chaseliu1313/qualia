@@ -2,6 +2,8 @@ import React, { ReactElement } from "react";
 import { animated, useSpring } from "react-spring";
 import styled from "styled-components";
 import Menu from "./menu";
+import Branding_Q from "./sections/branding_q";
+import ParallaxContainer from "./sections/parallaxContainer";
 import Section1 from "./sections/quiteessential";
 
 const Home = (): ReactElement => {
@@ -14,15 +16,19 @@ const Home = (): ReactElement => {
   return (
     <Container style={props}>
       <Menu />
-      <Section1 />
+      <ParallaxContainer />
     </Container>
   );
 };
 
 const Container = styled(animated.div)`
-  height: 100%;
-  width: 100%;
-  position: relative;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
 `;
 
 export default Home;

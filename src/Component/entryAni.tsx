@@ -15,6 +15,7 @@ const EntryAni = (): ReactElement => {
   const detectUserAgent = (): boolean => {
     const ua = window.navigator.userAgent;
     //if mobile return true
+    console.log(ua);
     if (ua.includes("Windows") || ua.includes("Macintosh")) return false;
     else return true;
   };
@@ -32,7 +33,6 @@ const EntryAni = (): ReactElement => {
     if (exit) {
       setTimeout(() => {
         setEntryState(true);
-        console.log("animate exist");
       }, duration);
     }
   }, [exit]);
