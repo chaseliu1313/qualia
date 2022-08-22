@@ -20,11 +20,13 @@ const ParallaxContainer = (): ReactElement => {
   const iHeight = window.innerHeight;
   const [focusedSection, setFocusedSection] = useState<number>(0);
   const [scrollPosition, setScrollPosition] = useState<number>(0);
-  console.log(scrollPosition, focusedSection);
+
   useEffect(() => {
     if (parallaxRef && parallaxRef.current) {
       const container = parallaxRef.current
         .container as React.MutableRefObject<HTMLDivElement>;
+
+      console.log(parallaxRef.current?.space, parallaxRef.current?.current);
 
       container.current.addEventListener("scroll", (e) => {
         if (parallaxRef && parallaxRef.current) {
@@ -50,25 +52,35 @@ const ParallaxContainer = (): ReactElement => {
   }, []);
 
   return (
-    <Parallax pages={8} style={{ height: "100%" }} ref={parallaxRef}>
+    <Parallax pages={4} style={{ height: "100%" }} ref={parallaxRef}>
       <ParallaxLayer offset={0} speed={1} style={{ zIndex: 20 }}>
         <Section1 scrollPosition={scrollPosition} />
       </ParallaxLayer>
+
       <ParallaxLayer
-        sticky={{ start: 1, end: 2 }}
-        speed={0.02}
-        style={{ zIndex: -10, position: "relative", height: iHeight * 0.5 }}
+        sticky={{ start: 1, end: 1.3 }}
+        speed={1}
+        style={{
+          zIndex: -10,
+          height: iHeight * 0.6,
+          backgroundColor: "#E0AFA0",
+        }}
       >
         <Section_2 />
       </ParallaxLayer>
-      <ParallaxLayer offset={2} speed={2} style={{ height: iHeight * 0.8 }}>
+
+      <ParallaxLayer
+        offset={1.55}
+        speed={0.5}
+        style={{ height: iHeight * 0.8 }}
+      >
         <Branding_A
           scrollPosition={scrollPosition}
           currentSection={focusedSection}
         />
       </ParallaxLayer>
-      <ParallaxLayer offset={3} speed={2} style={{ height: iHeight * 0.8 }}>
-        <Section_3 />
+      <ParallaxLayer offset={2} speed={0.5} style={{ height: iHeight * 0.8 }}>
+        <div></div>
       </ParallaxLayer>
     </Parallax>
   );

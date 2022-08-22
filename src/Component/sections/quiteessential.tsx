@@ -24,8 +24,8 @@ const Section1 = ({
   const [clientHeight, setClientHeight] = useState<number>(0);
   const containerWidth = iWidth * 0.75;
   const imageHight = iHeight * 0.7;
-  const svgHeight = iHeight * 1.05;
-  const svgStopX = iWidth * 0.35;
+  const svgHeight = iHeight * 1.35;
+  const svgStopX = iWidth * 0.45;
 
   const [{ x }, api] = useSpring(() => ({
     from: { x: 0 },

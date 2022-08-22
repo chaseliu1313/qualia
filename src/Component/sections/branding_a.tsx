@@ -13,6 +13,20 @@ const Branding_A = ({
   scrollPosition: number;
   currentSection: number;
 }): ReactElement => {
+  useEffect(() => {
+    // console.log({ currentSection, scrollPosition });
+  }, [scrollPosition, currentSection]);
+
+  const [uImgstyles, uImgapi] = useSpring(() => ({
+    from: { opacity: 0, scale: 0.9 },
+    config: { duration: 1500 },
+  }));
+
+  const [ustyles, uapi] = useSpring(() => ({
+    from: { opacity: 0, x: 200 },
+    config: config.molasses,
+  }));
+
   return (
     <Container>
       <BrandingContainer>
@@ -39,32 +53,33 @@ const Branding_A = ({
           </animated.svg>
         </SVGContainer>
         <ImgContainer>
-          <ImgAbs src={a} />
+          <div style={{ height: "100%", position: "relative" }}>
+            <ImgAbs src={a} />
+            <Text>{menuItem.aesthetic}</Text>
+          </div>
+
           <SVGContainer2>
-            <SVGContainer>
-              <animated.svg
-                viewBox={`0 0 ${iWidth * 0.45} ${iHeight * 0.4}`}
-                xmlns="http://www.w3.org/2000/svg"
-                style={{
-                  height: iHeight * 0.4,
-                  width: iWidth * 0.45,
-                  position: "relative",
-                  zIndex: 50,
-                }}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <animated.path
-                  fill="none"
-                  stroke="#7d807e"
-                  d={`
+            <animated.svg
+              viewBox={`0 0 ${iWidth * 0.45} ${iHeight * 0.4}`}
+              xmlns="http://www.w3.org/2000/svg"
+              style={{
+                height: iHeight * 0.4,
+                width: iWidth * 0.45,
+                position: "relative",
+                zIndex: 50,
+              }}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <animated.path
+                fill="none"
+                stroke="#7d807e"
+                d={`
           M ${iWidth * 0.3} 0 L 0 ${iHeight * 0.4}
           `}
-                />
-              </animated.svg>
-            </SVGContainer>
+              />
+            </animated.svg>
           </SVGContainer2>
-          <Text>{menuItem.aesthetic}</Text>
         </ImgContainer>
       </BrandingContainer>
       <BGContainer>
@@ -93,11 +108,14 @@ const BrandingContainer = styled(animated.div)`
 const SVGContainer = styled(animated.div)`
   height: 100%;
   width: 55%;
+  position: relative;
 `;
 const SVGContainer2 = styled(animated.div)`
   height: 40%;
   width: 100%;
   margin-top: -2%;
+  z-index: 40;
+  position: relative;
 `;
 
 const ImgContainer = styled(animated.div)`
@@ -107,6 +125,7 @@ const ImgContainer = styled(animated.div)`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  position: relative;
 `;
 
 const ImgAbs = styled(animated.img)`
@@ -123,9 +142,9 @@ const Text = styled(animated.h5)`
   margin: unset;
   text-transform: uppercase;
   position: absolute;
-  top: 30%;
-  left: 65%;
-  align-self: center;
+  top: 45%;
+  left: 0;
+  width: 100%;
 `;
 
 const BGContainer = styled(animated.div)`
@@ -141,7 +160,6 @@ const BGContainer = styled(animated.div)`
   position: relative;
   margin-top: -10%;
   padding-left: 10%;
-  background-color: #ffffff;
 `;
 
 const Img = styled(animated.img)`
