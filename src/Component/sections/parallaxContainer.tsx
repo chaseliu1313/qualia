@@ -4,20 +4,19 @@ import React, {
   useEffect,
   useRef,
   useState,
-} from "react";
-import { IParallax, Parallax, ParallaxLayer } from "@react-spring/parallax";
-import styled from "styled-components";
-import { animated } from "react-spring";
-import Section1 from "./quiteessential";
-import Branding_Q from "./branding_q";
-import ReactDOM from "react-dom";
-import Section_2 from "./unlimited";
-import Section_3 from "./aesthetic";
-import Branding_A from "./branding_a";
+} from 'react';
+import { IParallax, Parallax, ParallaxLayer } from '@react-spring/parallax';
+import styled from 'styled-components';
+import { animated } from 'react-spring';
+import Section1 from './quiteessential';
+import Section_2 from './unlimited';
+import Section_3 from './luxury';
+import Branding_A from './branding_a';
 
 const ParallaxContainer = (): ReactElement => {
   const parallaxRef = useRef<IParallax | null>(null);
   const iHeight = window.innerHeight;
+  const iWeight = window.innerWidth;
   const [focusedSection, setFocusedSection] = useState<number>(0);
   const [scrollPosition, setScrollPosition] = useState<number>(0);
 
@@ -26,9 +25,7 @@ const ParallaxContainer = (): ReactElement => {
       const container = parallaxRef.current
         .container as React.MutableRefObject<HTMLDivElement>;
 
-      console.log(parallaxRef.current?.space, parallaxRef.current?.current);
-
-      container.current.addEventListener("scroll", (e) => {
+      container.current.addEventListener('scroll', (e) => {
         if (parallaxRef && parallaxRef.current) {
           const section = Math.floor(
             parallaxRef.current?.current / parallaxRef.current?.space
@@ -46,13 +43,13 @@ const ParallaxContainer = (): ReactElement => {
       if (parallaxRef && parallaxRef.current) {
         const container = parallaxRef.current
           .container as React.MutableRefObject<HTMLDivElement>;
-        container.current.removeEventListener("scroll", (e) => {});
+        container.current.removeEventListener('scroll', (e) => {});
       }
     };
   }, []);
 
   return (
-    <Parallax pages={4} style={{ height: "100%" }} ref={parallaxRef}>
+    <Parallax pages={4} style={{ height: '100%' }} ref={parallaxRef}>
       <ParallaxLayer offset={0} speed={1} style={{ zIndex: 20 }}>
         <Section1 scrollPosition={scrollPosition} />
       </ParallaxLayer>
@@ -63,7 +60,7 @@ const ParallaxContainer = (): ReactElement => {
         style={{
           zIndex: -10,
           height: iHeight * 0.6,
-          backgroundColor: "#E0AFA0",
+          backgroundColor: '#E0AFA0',
         }}
       >
         <Section_2 />
@@ -79,8 +76,9 @@ const ParallaxContainer = (): ReactElement => {
           currentSection={focusedSection}
         />
       </ParallaxLayer>
-      <ParallaxLayer offset={2} speed={0.5} style={{ height: iHeight * 0.8 }}>
-        <div></div>
+
+      <ParallaxLayer offset={2} speed={0.5} style={{ height: iHeight }}>
+        <Section_3 />
       </ParallaxLayer>
     </Parallax>
   );

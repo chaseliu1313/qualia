@@ -1,11 +1,11 @@
-import React, { ReactElement, useEffect } from "react";
-import { animated, config, useSpring } from "react-spring";
-import styled from "styled-components";
-import { menuItem } from "../../Enum";
+import React, { ReactElement, useEffect } from 'react';
+import { animated, config, useSpring } from 'react-spring';
+import styled from 'styled-components';
+import { menuItem } from '../../Enum';
 const iHeight = window.innerHeight;
 const iWidth = window.innerWidth;
-const a = require("../../Asset/Img/A.png");
-const bg = require("../../Asset/Img/section_3.png");
+const a = require('../../Asset/Img/A.png');
+const bg = require('../../Asset/Img/section_3.png');
 const Branding_A = ({
   scrollPosition,
   currentSection,
@@ -14,15 +14,23 @@ const Branding_A = ({
   currentSection: number;
 }): ReactElement => {
   useEffect(() => {
-    // console.log({ currentSection, scrollPosition });
-  }, [scrollPosition, currentSection]);
+    if (currentSection === 1) {
+      Imgapi.start({ opacity: 1, scale: 1 });
+      api.start({ opacity: 1, x: 0 });
+      brandApi.start({ opacity: 1 });
+    }
+  }, [currentSection]);
 
-  const [uImgstyles, uImgapi] = useSpring(() => ({
-    from: { opacity: 0, scale: 0.9 },
+  const [Imgstyles, Imgapi] = useSpring(() => ({
+    from: { opacity: 0, scale: 0.8 },
+    config: { duration: 2500 },
+  }));
+  const [brandStyles, brandApi] = useSpring(() => ({
+    from: { opacity: 0 },
     config: { duration: 1500 },
   }));
 
-  const [ustyles, uapi] = useSpring(() => ({
+  const [styles, api] = useSpring(() => ({
     from: { opacity: 0, x: 200 },
     config: config.molasses,
   }));
@@ -30,14 +38,14 @@ const Branding_A = ({
   return (
     <Container>
       <BrandingContainer>
-        <SVGContainer>
+        <SVGContainer style={brandStyles}>
           <animated.svg
             viewBox={`0 0 ${iWidth * 0.55} ${iHeight}`}
             xmlns="http://www.w3.org/2000/svg"
             style={{
               height: iHeight,
               width: iWidth * 0.55,
-              position: "relative",
+              position: 'relative',
               zIndex: 50,
             }}
             strokeLinecap="round"
@@ -53,19 +61,19 @@ const Branding_A = ({
           </animated.svg>
         </SVGContainer>
         <ImgContainer>
-          <div style={{ height: "100%", position: "relative" }}>
-            <ImgAbs src={a} />
-            <Text>{menuItem.aesthetic}</Text>
+          <div style={{ height: '100%', position: 'relative' }}>
+            <ImgAbs src={a} style={brandStyles} />
+            <Text style={styles}>{menuItem.aesthetic}</Text>
           </div>
 
-          <SVGContainer2>
+          <SVGContainer2 style={styles}>
             <animated.svg
               viewBox={`0 0 ${iWidth * 0.45} ${iHeight * 0.4}`}
               xmlns="http://www.w3.org/2000/svg"
               style={{
                 height: iHeight * 0.4,
                 width: iWidth * 0.45,
-                position: "relative",
+                position: 'relative',
                 zIndex: 50,
               }}
               strokeLinecap="round"
@@ -83,7 +91,7 @@ const Branding_A = ({
         </ImgContainer>
       </BrandingContainer>
       <BGContainer>
-        <Img src={bg} />
+        <Img style={Imgstyles} src={bg} />
       </BGContainer>
     </Container>
   );
