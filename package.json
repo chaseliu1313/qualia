@@ -2,6 +2,7 @@
   "name": "qualia",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://qualiadevelopment.com.au",
   "dependencies": {
     "@react-spring/parallax": "^9.5.2",
     "@testing-library/jest-dom": "^5.16.4",
