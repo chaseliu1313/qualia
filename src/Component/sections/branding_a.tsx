@@ -1,18 +1,22 @@
-import React, { ReactElement, useEffect } from 'react';
-import { animated, config, useSpring } from 'react-spring';
-import styled from 'styled-components';
-import { menuItem } from '../../Enum';
-const iHeight = window.innerHeight;
-const iWidth = window.innerWidth;
-const a = require('../../Asset/Img/A.png');
-const bg = require('../../Asset/Img/section_3.png');
+import React, { ReactElement, useEffect } from "react";
+import { animated, config, useSpring } from "react-spring";
+import styled from "styled-components";
+import { menuItem } from "../../Enum";
+import { useWindowResize } from "../../Hooks";
+import useMediaQuery from "../../Hooks/useDeviceInfo";
+
+const a = require("../../Asset/Img/A.png");
+const bg = require("../../Asset/Img/section_3.png");
 const Branding_A = ({
-  scrollPosition,
   currentSection,
 }: {
-  scrollPosition: number;
   currentSection: number;
 }): ReactElement => {
+  const { size } = useWindowResize();
+  const iHeight = size.height;
+  const iWidth = size.width;
+  const matchesS = useMediaQuery("(min-width: 768px)");
+
   useEffect(() => {
     if (currentSection === 1) {
       Imgapi.start({ opacity: 1, scale: 1 });
@@ -36,44 +40,17 @@ const Branding_A = ({
   }));
 
   return (
-    <Container>
-      <BrandingContainer>
-        <SVGContainer style={brandStyles}>
-          <animated.svg
-            viewBox={`0 0 ${iWidth * 0.55} ${iHeight}`}
-            xmlns="http://www.w3.org/2000/svg"
-            style={{
-              height: iHeight,
-              width: iWidth * 0.55,
-              position: 'relative',
-              zIndex: 50,
-            }}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <animated.path
-              fill="none"
-              stroke="#7d807e"
-              d={`
-          M 200 0 L ${iWidth * 0.45} ${iHeight}
-          `}
-            />
-          </animated.svg>
-        </SVGContainer>
-        <ImgContainer>
-          <div style={{ height: '100%', position: 'relative' }}>
-            <ImgAbs src={a} style={brandStyles} />
-            <Text style={styles}>{menuItem.aesthetic}</Text>
-          </div>
-
-          <SVGContainer2 style={styles}>
+    <Container height={iHeight}>
+      <BrandingContainer height={iHeight}>
+        {matchesS && (
+          <SVGContainer style={brandStyles}>
             <animated.svg
-              viewBox={`0 0 ${iWidth * 0.45} ${iHeight * 0.4}`}
+              viewBox={`0 0 ${iWidth * 0.55} ${iHeight}`}
               xmlns="http://www.w3.org/2000/svg"
               style={{
-                height: iHeight * 0.4,
-                width: iWidth * 0.45,
-                position: 'relative',
+                height: iHeight,
+                width: iWidth * 0.55,
+                position: "relative",
                 zIndex: 50,
               }}
               strokeLinecap="round"
@@ -83,28 +60,64 @@ const Branding_A = ({
                 fill="none"
                 stroke="#7d807e"
                 d={`
-          M ${iWidth * 0.3} 0 L 0 ${iHeight * 0.4}
+          M 200 0 L ${iWidth * 0.45} ${iHeight}
+          `}
+              />
+            </animated.svg>
+          </SVGContainer>
+        )}
+        <ImgContainer matches={matchesS.toString()}>
+          <div style={{ height: "100%", position: "relative" }}>
+            <ImgAbs
+              src={a}
+              style={brandStyles}
+              height={matchesS ? "100%" : iHeight * 0.5}
+              width={matchesS ? "auto" : "auto"}
+            />
+            <Text style={styles} matches={matchesS.toString()}>
+              {menuItem.aesthetic}
+            </Text>
+          </div>
+
+          <SVGContainer2 style={styles}>
+            <animated.svg
+              viewBox={`0 0 ${iWidth * 0.45} ${iHeight * 0.65}`}
+              xmlns="http://www.w3.org/2000/svg"
+              style={{
+                height: iHeight * 0.65,
+                width: iWidth * 0.45,
+                position: "relative",
+                zIndex: 50,
+              }}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <animated.path
+                fill="none"
+                stroke="#7d807e"
+                d={`
+          M ${iWidth * 0.3} 0 L 0 ${iHeight * 0.65}
           `}
               />
             </animated.svg>
           </SVGContainer2>
         </ImgContainer>
       </BrandingContainer>
-      <BGContainer>
-        <Img style={Imgstyles} src={bg} />
+      <BGContainer height={iHeight}>
+        <Img style={Imgstyles} src={bg} height={matchesS ? iHeight : iWidth} />
       </BGContainer>
     </Container>
   );
 };
 
-const Container = styled.div`
-  height: ${iHeight * 1.8}px;
+const Container = styled.div<{ height: number }>`
+  height: ${(props) => props.height * 1.8}px;
   width: 100%;
 `;
 
-const BrandingContainer = styled(animated.div)`
+const BrandingContainer = styled.div<{ height: number }>`
   z-index: 40;
-  height: ${iHeight * 0.8}px;
+  height: ${(props) => props.height * 0.8}px;
   width: 100%;
   display: flex;
   justify-content: flex-start;
@@ -126,9 +139,11 @@ const SVGContainer2 = styled(animated.div)`
   position: relative;
 `;
 
-const ImgContainer = styled(animated.div)`
+const ImgContainer = styled(animated.div)<{
+  matches: string;
+}>`
   height: 100%;
-  width: 45%;
+  width: ${(props) => (props.matches === "true" ? "45%" : "100%")};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -136,17 +151,28 @@ const ImgContainer = styled(animated.div)`
   position: relative;
 `;
 
-const ImgAbs = styled(animated.img)`
+const ImgAbs = styled(animated.img)<{
+  height: number | string;
+  width: number | string;
+}>`
   object-fit: cover;
-  height: 100%;
-  width: auto;
+  height: ${(props) => {
+    return typeof props.height === "string"
+      ? props.height
+      : `${props.height}px`;
+  }};
+  width: ${(props) => {
+    return typeof props.width === "string" ? props.width : `${props.width}px`;
+  }};
 `;
 
-const Text = styled(animated.h5)`
+const Text = styled(animated.h5)<{
+  matches: string;
+}>`
   font-size: 34px;
   font-weight: 200;
   color: white;
-  letter-spacing: 20px;
+  letter-spacing: ${(props) => (props.matches === "true" ? "20px" : "8px")};
   margin: unset;
   text-transform: uppercase;
   position: absolute;
@@ -155,14 +181,14 @@ const Text = styled(animated.h5)`
   width: 100%;
 `;
 
-const BGContainer = styled(animated.div)`
-  height: ${iHeight * 0.9}px;
+const BGContainer = styled(animated.div)<{ height: number }>`
+  height: ${(props) => props.height}px;
   width: 100%;
   position: relative;
   overflow: hidden;
   z-index: 45;
   display: flex;
-  justify-content: flext-start;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: row;
   position: relative;
@@ -170,9 +196,9 @@ const BGContainer = styled(animated.div)`
   padding-left: 10%;
 `;
 
-const Img = styled(animated.img)`
-  height: ${iHeight * 0.9}px;
-  width: ${iHeight * 0.9}px;
+const Img = styled(animated.img)<{ height: number }>`
+  height: ${(props) => props.height}px;
+  width: ${(props) => props.height}px;
   object-fit: cover;
   z-index: 10;
   border-radius: 50%;

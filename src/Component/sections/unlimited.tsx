@@ -4,11 +4,11 @@ import styled from "styled-components";
 
 const iHeight = window.innerHeight;
 const iWidth = window.innerWidth;
-const bg = require("../../Asset/Img/section_2.png");
-const Section_2 = (): ReactElement => {
+
+const Section_2 = ({ asset }: { asset: string }): ReactElement => {
   return (
     <Container>
-      <Img src={bg} />
+      <Img src={asset} />
     </Container>
   );
 };
@@ -22,7 +22,7 @@ const Container = styled(animated.div)`
   overflow: hidden;
   z-index: 10;
   display: flex;
-  justify-content: flext-start;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
   position: relative;

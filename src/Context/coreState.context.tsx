@@ -4,6 +4,7 @@ import { CoreStateReducer } from "./coreState.reducer";
 
 const initialCoreState: CoreState = {
   entryFinished: false,
+  parallax: null,
 };
 
 type ContextProps = {

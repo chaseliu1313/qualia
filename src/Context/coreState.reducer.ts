@@ -8,6 +8,8 @@ export const CoreStateReducer = (
   switch (actions.type) {
     case CoreStateActionTypes.SET_ENTER_FINISHED:
       return { ...state, entryFinished: actions.payload.entryFinished };
+    case CoreStateActionTypes.SET_PARALLAX:
+      return {...state, parallax: actions.payload.parallax}
     default:
       return state;
   }

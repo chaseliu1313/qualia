@@ -2,9 +2,9 @@ import React, { ReactElement, useEffect } from "react";
 import { animated, config, useSpring } from "react-spring";
 import styled from "styled-components";
 import { menuItem } from "../../Enum";
+import { useWindowResize } from "../../Hooks";
+import useMediaQuery from "../../Hooks/useDeviceInfo";
 
-const iHeight = window.innerHeight;
-const iWidth = window.innerWidth;
 const q = require("../../Asset/Img/Q.png");
 const u = require("../../Asset/Img/U.png");
 const Branding_Q = ({
@@ -14,6 +14,11 @@ const Branding_Q = ({
   scrollPosition: number;
   momHeight: number;
 }): ReactElement => {
+  const { size } = useWindowResize();
+  const iHeight = size.height;
+  const iWidth = size.width;
+  const matchesS = useMediaQuery("(min-width: 768px)");
+
   useEffect(() => {
     if (scrollPosition > 0) {
       api.start({
@@ -55,29 +60,34 @@ const Branding_Q = ({
   }));
 
   return (
-    <BrandingContainer>
+    <BrandingContainer height={iHeight}>
       <ImgAbs
         src={q}
-        height={iHeight * 0.5}
-        width={iWidth * 0.4}
+        height={matchesS ? iHeight * 0.6 : "auto"}
+        width={matchesS ? "auto" : iWidth * 0.8}
         style={imgAni}
+        alt="Quintessential"
       />
-      <Text style={styles}>{menuItem.quintessential}</Text>
-      <BrandingUContainer>
+      <Text style={styles} matches={matchesS.toString()}>
+        {menuItem.quintessential}
+      </Text>
+      <BrandingUContainer matches={matchesS.toString()}>
         <ImgAbs
           style={uImgstyles}
           src={u}
-          height={iHeight * 0.5}
-          width={iWidth * 0.4}
+          height={matchesS ? iHeight * 0.5 : "auto"}
+          width={matchesS ? "auto" : iWidth * 0.8}
           alt="Unlimited"
         />
-        <Text style={ustyles}>{menuItem.unlimited}</Text>
+        <Text style={ustyles} matches={matchesS.toString()}>
+          {menuItem.unlimited}
+        </Text>
       </BrandingUContainer>
     </BrandingContainer>
   );
 };
 
-const BrandingContainer = styled(animated.div)`
+const BrandingContainer = styled(animated.div)<{ height: number }>`
   z-index: 40;
   height: 100%;
   width: 100%;
@@ -86,16 +96,27 @@ const BrandingContainer = styled(animated.div)`
   align-items: center;
   flex-direction: column;
   position: absolute;
-  top: ${iHeight * 0.4}px;
+  top: ${(props) => props.height * 0.4}px;
 `;
 
-const ImgAbs = styled(animated.img)`
+const ImgAbs = styled(animated.img)<{
+  height: number | string;
+  width: number | string;
+}>`
   object-fit: cover;
-  height: 60%;
-  width: auto;
+  height: ${(props) => {
+    return typeof props.height === "string"
+      ? props.height
+      : `${props.height}px`;
+  }};
+  width: ${(props) => {
+    return typeof props.width === "string" ? props.width : `${props.width}px`;
+  }};
 `;
 
-const BrandingUContainer = styled(animated.div)`
+const BrandingUContainer = styled(animated.div)<{
+  matches: string;
+}>`
   z-index: 40;
   position: relative;
   height: 100%;
@@ -103,17 +124,20 @@ const BrandingUContainer = styled(animated.div)`
   display: flex;
   padding-left: 20%;
   padding-top: 18%;
-  justify-content: flex-start;
+  justify-content: ${(props) =>
+    props.matches === "true" ? "flex-start" : "center"};
   align-items: center;
-  flex-direction: row;
+  flex-direction: ${(props) => (props.matches === "true" ? "row" : "column")};
   background-color: #ffffff;
 `;
 
-const Text = styled(animated.h5)`
+const Text = styled(animated.h5)<{
+  matches: string;
+}>`
   font-size: 34px;
   font-weight: 200;
   color: #353535;
-  letter-spacing: 20px;
+  letter-spacing: ${(props) => (props.matches === "true" ? "20px" : "8px")};
   margin: unset;
   text-transform: uppercase;
 `;

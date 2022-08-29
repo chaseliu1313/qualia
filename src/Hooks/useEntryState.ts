@@ -6,7 +6,7 @@ export const useEntryState = (): {entryState: boolean; setEntryState: (state: bo
   const { coreState, dispatchCoreState } = useContext(CoreStateContext);
 
   const setEntryState = (state: boolean): void =>{
-    dispatchCoreState({type: CoreStateActionTypes.SET_ENTER_FINISHED, payload: {entryFinished: state}})
+    dispatchCoreState({type: CoreStateActionTypes.SET_ENTER_FINISHED, payload: {...coreState, entryFinished: state}})
   }
 
   return {entryState: coreState.entryFinished, setEntryState}
