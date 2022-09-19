@@ -1,16 +1,14 @@
 {
   "files": {
-    "main.css": "/qualia/static/css/main.3d4dfd30.css",
-    "main.js": "/qualia/static/js/main.f79e434b.js",
+    "main.css": "/qualia/static/css/main.4e5d2ab2.css",
+    "main.js": "/qualia/static/js/main.abd53853.js",
     "static/js/787.5156c5ed.chunk.js": "/qualia/static/js/787.5156c5ed.chunk.js",
-    "static/media/web_intro.mp4": "/qualia/static/media/web_intro.6f5c3ad886cf3006a58f.mp4",
-    "static/media/mobile_intro.mp4": "/qualia/static/media/mobile_intro.66286c930cbd0eb0bd33.mp4",
+    "static/media/background.mp4": "/qualia/static/media/background.5c44aa725af2bc570d05.mp4",
     "static/media/section_3.png": "/qualia/static/media/section_3.d69eb4171b4f47dc326d.png",
     "static/media/section_2.png": "/qualia/static/media/section_2.5006d5098e293bac178a.png",
-    "static/media/light.png": "/qualia/static/media/light.af3861b4eb5026c7b11f.png",
-    "static/media/dark.png": "/qualia/static/media/dark.3e8599b9fa0ee83ab603.png",
     "static/media/section_6.png": "/qualia/static/media/section_6.fa94306627bd30366ea9.png",
     "static/media/section_4.jpg": "/qualia/static/media/section_4.d0e7a6b1acbeda599515.jpg",
+    "static/media/section_1.jpg": "/qualia/static/media/section_1.b205a0edea255d80670a.jpg",
     "static/media/section_5.webp": "/qualia/static/media/section_5.3d2612b7f0a2dc403b85.webp",
     "static/media/Q.png": "/qualia/static/media/Q.af490aaf156a1ae59c7d.png",
     "static/media/A.png": "/qualia/static/media/A.42fe81af5379910e4bbd.png",
@@ -19,12 +17,12 @@
     "static/media/U.png": "/qualia/static/media/U.ca4ab519c2f15b865c85.png",
     "static/media/4.png": "/qualia/static/media/4.92d85700bb598e778fcb.png",
     "index.html": "/qualia/index.html",
-    "main.3d4dfd30.css.map": "/qualia/static/css/main.3d4dfd30.css.map",
-    "main.f79e434b.js.map": "/qualia/static/js/main.f79e434b.js.map",
+    "main.4e5d2ab2.css.map": "/qualia/static/css/main.4e5d2ab2.css.map",
+    "main.abd53853.js.map": "/qualia/static/js/main.abd53853.js.map",
     "787.5156c5ed.chunk.js.map": "/qualia/static/js/787.5156c5ed.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3d4dfd30.css",
-    "static/js/main.f79e434b.js"
+    "static/css/main.4e5d2ab2.css",
+    "static/js/main.abd53853.js"
   ]
 }
