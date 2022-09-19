@@ -9,7 +9,7 @@ const BodyContainer = (): ReactElement => {
 
   return (
     <Container entryFinished={coreState.entryFinished}>
-      {coreState.entryFinished ? <Home /> : <EntryAni />}
+      <Home />
     </Container>
   );
 };

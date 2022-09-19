@@ -9,7 +9,9 @@ export const CoreStateReducer = (
     case CoreStateActionTypes.SET_ENTER_FINISHED:
       return { ...state, entryFinished: actions.payload.entryFinished };
     case CoreStateActionTypes.SET_PARALLAX:
-      return {...state, parallax: actions.payload.parallax}
+      return {...state, parallax: actions.payload.parallax};
+    case CoreStateActionTypes.SET_SCROLL_STATUS:
+      return {...state, scrollStatus: actions.payload.scrollStatus}
     default:
       return state;
   }

@@ -2,29 +2,28 @@ import React, { ReactElement, useEffect, useRef, useState } from "react";
 import { animated, useSpring, config } from "react-spring";
 import styled from "styled-components";
 
-import { useWindowResize } from "../../Hooks";
+import { useEntryState, useWindowResize } from "../../Hooks";
 import useMediaQuery from "../../Hooks/useDeviceInfo";
 import Branding_Q from "./branding_q";
 
-const bg = require("../../Asset/Img/light.png");
-const bgDark = require("../../Asset/Img/dark.png");
+const bg = require("../../Asset/Img/section_1.jpg");
+
 const Section1 = ({
   scrollPosition,
+  offset,
 }: {
   scrollPosition: number;
+  offset: number;
 }): ReactElement => {
   const [imgAni, Imgapi] = useSpring(() => ({
     from: { opacity: 0 },
-    config: { duration: 1500 },
-  }));
-  const [dkImgAni, dkImgapi] = useSpring(() => ({
-    from: { opacity: 0 },
-    config: { duration: 1500 },
+    config: { duration: 1000 },
   }));
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [clientHeight, setClientHeight] = useState<number>(0);
   const { size } = useWindowResize();
+  const { entryState } = useEntryState();
   const iHeight = size.height;
   const iWidth = size.width;
   const matchesS = useMediaQuery("(min-width: 768px)");
@@ -40,12 +39,16 @@ const Section1 = ({
   }));
 
   const aniStyles = useSpring({
-    opacity: scrollPosition > 0 ? 1 : 0,
+    opacity: offset.toPrecision(2) >= "0.074" ? 1 : 0,
   });
 
   useEffect(() => {
-    Imgapi.start({ opacity: 1 });
-  }, []);
+    if (entryState) {
+      Imgapi.start({ opacity: 1 });
+    } else {
+      Imgapi.start({ opacity: 0 });
+    }
+  }, [entryState]);
 
   useEffect(() => {
     if (containerRef && containerRef.current) {
@@ -56,20 +59,10 @@ const Section1 = ({
       if (scrollPosition / containerRef.current.clientHeight <= 0.35)
         api.set({ x: scrollPosition / containerRef.current?.clientHeight });
     }
-
-    if (scrollPosition > 0) {
-      Imgapi.set({ opacity: 0 });
-      dkImgapi.start({ opacity: 1 });
-    }
-
-    if (scrollPosition === 0) {
-      Imgapi.start({ opacity: 1 });
-      dkImgapi.set({ opacity: 0 });
-    }
   }, [scrollPosition]);
 
   return (
-    <Container ref={containerRef} height={iHeight}>
+    <Container ref={containerRef} height={iHeight} style={imgAni}>
       <div
         style={{
           display: "flex",
@@ -81,11 +74,11 @@ const Section1 = ({
       >
         <div
           style={{
-            height: imageHight * 1.4,
+            height: iHeight,
             width: containerWidth,
             position: "relative",
           }}
-        ></div>
+        />
         <div
           style={{
             height: imageHight,
@@ -95,12 +88,6 @@ const Section1 = ({
             left: (iWidth - containerWidth) / 2,
           }}
         >
-          <ImgAbs
-            src={bgDark}
-            height={iHeight}
-            width={iWidth}
-            style={dkImgAni}
-          />
           <ImgAbs src={bg} height={iHeight} width={iWidth} style={imgAni} />
         </div>
 
@@ -120,21 +107,17 @@ const Section1 = ({
             <animated.path
               fill="none"
               stroke="#adadad"
-              d={x.to(
-                [0, 0.35],
-                [
-                  `M ${containerWidth}, 0
-      L 0, ${containerWidth} z`,
-
-                  `M ${containerWidth}, 0
-      L ${svgStopX}, ${svgHeight} z`,
-                ]
-              )}
+              d={`M ${containerWidth}, 0
+      L ${svgStopX}, ${svgHeight} z`}
             />
           </animated.svg>
         </animated.div>
       </div>
-      <Branding_Q scrollPosition={scrollPosition} momHeight={clientHeight} />
+      <Branding_Q
+        scrollPosition={scrollPosition}
+        momHeight={clientHeight}
+        offset={offset}
+      />
     </Container>
   );
 };
@@ -151,6 +134,8 @@ const Container = styled(animated.div)<{ height: number }>`
   flex-direction: column;
   padding-top: 35px;
   position: relative;
+
+  background-color: #ffffff;
 `;
 
 const Img = styled(animated.img)<{ height: number; width: number }>`

@@ -6,3 +6,6 @@
 }
 
  
+#videoPlayer > video {
+ object-fit: cover;
+}

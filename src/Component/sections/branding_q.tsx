@@ -1,18 +1,26 @@
 import React, { ReactElement, useEffect } from "react";
 import { animated, config, useSpring } from "react-spring";
-import styled from "styled-components";
+import styled, {
+  keyframes,
+  css,
+  FlattenSimpleInterpolation,
+  Keyframes,
+} from "styled-components";
 import { menuItem } from "../../Enum";
 import { useWindowResize } from "../../Hooks";
 import useMediaQuery from "../../Hooks/useDeviceInfo";
 
 const q = require("../../Asset/Img/Q.png");
 const u = require("../../Asset/Img/U.png");
+
 const Branding_Q = ({
   scrollPosition,
   momHeight,
+  offset,
 }: {
   scrollPosition: number;
   momHeight: number;
+  offset: number;
 }): ReactElement => {
   const { size } = useWindowResize();
   const iHeight = size.height;
@@ -20,14 +28,17 @@ const Branding_Q = ({
   const matchesS = useMediaQuery("(min-width: 768px)");
 
   useEffect(() => {
-    if (scrollPosition > 0) {
+    if (offset.toPrecision(2) >= "0.08") {
       api.start({
         opacity: 1,
         x: 0,
       });
+      imageAniapi.start({
+        opacity: 1,
+      });
     }
 
-    if (scrollPosition / momHeight >= 0.25) {
+    if (offset.toPrecision(2) >= "0.16") {
       uImgapi.start({
         opacity: 1,
         scale: 1,
@@ -37,13 +48,12 @@ const Branding_Q = ({
         x: 0,
       });
     }
-  }, [scrollPosition]);
+  }, [offset]);
 
-  const imgAni = useSpring({
-    to: { opacity: 1, scale: 1 },
-    from: { opacity: 0, scale: 0.9 },
+  const [imgAniStyles, imageAniapi] = useSpring(() => ({
+    from: { opacity: 0, y: 0 },
     config: { duration: 1500 },
-  });
+  }));
   const [uImgstyles, uImgapi] = useSpring(() => ({
     from: { opacity: 0, scale: 0.9 },
     config: { duration: 1500 },
@@ -63,9 +73,9 @@ const Branding_Q = ({
     <BrandingContainer height={iHeight}>
       <ImgAbs
         src={q}
-        height={matchesS ? iHeight * 0.6 : "auto"}
-        width={matchesS ? "auto" : iWidth * 0.8}
-        style={imgAni}
+        height={matchesS ? 567 : "auto"}
+        width={matchesS ? 567 : iWidth * 0.8}
+        style={imgAniStyles}
         alt="Quintessential"
       />
       <Text style={styles} matches={matchesS.toString()}>
@@ -75,8 +85,8 @@ const Branding_Q = ({
         <ImgAbs
           style={uImgstyles}
           src={u}
-          height={matchesS ? iHeight * 0.5 : "auto"}
-          width={matchesS ? "auto" : iWidth * 0.8}
+          height={matchesS ? 567 : "auto"}
+          width={matchesS ? 567 : iWidth * 0.8}
           alt="Unlimited"
         />
         <Text style={ustyles} matches={matchesS.toString()}>
@@ -128,7 +138,6 @@ const BrandingUContainer = styled(animated.div)<{
     props.matches === "true" ? "flex-start" : "center"};
   align-items: center;
   flex-direction: ${(props) => (props.matches === "true" ? "row" : "column")};
-  background-color: #ffffff;
 `;
 
 const Text = styled(animated.h5)<{
@@ -143,5 +152,3 @@ const Text = styled(animated.h5)<{
 `;
 
 export default Branding_Q;
-
-//margin-top: ${-iWidth / 5}px;

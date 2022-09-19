@@ -11,7 +11,6 @@ const Section_3 = ({
 }: {
   currentSection: number;
 }): ReactElement => {
-  const [flip, set] = useState<Boolean>(false);
   const { size } = useWindowResize();
   const iHeight = size.height;
   const iWidth = size.width;
@@ -52,7 +51,7 @@ const Section_3 = ({
     <Container height={iHeight} width={iWidth}>
       <SVGContainer style={svgStyles}>
         <animated.svg
-          viewBox={`0 0 ${iWidth * 0.4} ${iHeight * 0.75}`}
+          viewBox={`0 0 ${iWidth * 0.4} ${iHeight * 0.65}`}
           xmlns="http://www.w3.org/2000/svg"
           style={{
             height: iHeight * 0.75,
@@ -67,7 +66,7 @@ const Section_3 = ({
             fill="none"
             stroke="#7d807e"
             d={`
-           M ${iWidth * 0.18} 0 L ${iWidth * 0.35} ${iHeight * 0.63} 
+           M ${iWidth * 0.38} 0 L ${iWidth * 0.35} ${iHeight * 0.8} 
           `}
           />
         </animated.svg>
@@ -80,23 +79,30 @@ const Section_3 = ({
         <Img
           src={l}
           style={brandStyles}
-          height={matchesS ? iHeight * 0.9 : "auto"}
+          height={matchesS ? "95%" : "auto"}
           width={matchesS ? 650 : iWidth * 0.8}
         />
       </SubContainer>
+      <div
+        style={{
+          position: "absolute",
+          width: iWidth,
+          height: 0.5 * iHeight,
+          bottom: "20%",
+          left: 0,
+          backgroundColor: "white",
+        }}
+      ></div>
     </Container>
   );
 };
-
-// height: 90%;
-//   width: 650px;
 
 const SVGContainer = styled(animated.div)`
   height: 65%;
   width: 55%;
   position: absolute;
   align-self: center;
-  top: -100px;
+  top: -300px;
   left: 100px;
   z-index: -10;
 `;
@@ -130,9 +136,9 @@ const SubContainer = styled(animated.div)<{
 
 const CubeContainer = styled(animated.div)`
   width: 202px;
-  height: 200px;
+  height: 43%;
   position: absolute;
-  top: 0;
+  top: -50px;
   z-index: 10;
   left: calc(50% - 148px);
   background-color: black;
@@ -157,16 +163,17 @@ const Img = styled(animated.img)<{
 const Text = styled(animated.h5)<{
   matches: string;
 }>`
-  font-size: 34px;
+  font-size: 32px;
   font-weight: 200;
   color: black;
   letter-spacing: ${(props) => (props.matches === "true" ? "15px" : "8px")};
   margin: unset;
   text-transform: uppercase;
   position: absolute;
-  top: calc(100% - 350px);
-  left: ${(props) => (props.matches === "true" ? "35%" : "-10px")};
-  z-index: 30;
+  top: 42%;
+  left: ${(props) =>
+    props.matches === "true" ? "calc(50% - 148px)" : "-10px"};
+  z-index: 130;
 `;
 
 export default Section_3;

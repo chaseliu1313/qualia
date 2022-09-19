@@ -5,6 +5,7 @@ import { CoreStateReducer } from "./coreState.reducer";
 const initialCoreState: CoreState = {
   entryFinished: false,
   parallax: null,
+  scrollStatus: true,
 };
 
 type ContextProps = {

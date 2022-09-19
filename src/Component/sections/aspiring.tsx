@@ -60,7 +60,7 @@ const Aspiring = ({
             fill="none"
             stroke="#7d807e"
             d={`
-          M ${iWidth * 0.4} 0 L 0 ${iHeight * 0.8}
+          M ${iWidth * 0.2} 0 L 0 ${iHeight * 0.8}
           `}
           />
         </animated.svg>
@@ -99,6 +99,10 @@ const Aspiring = ({
             height: 100,
             width: "80%",
             borderTop: "1px solid #919098",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexDirection: "row",
           }}
         >
           <h6
@@ -107,6 +111,19 @@ const Aspiring = ({
               fontWeight: "lighter",
               width: "100%",
               textAlign: "left",
+              color: "#919098",
+              margin: 0,
+            }}
+          >
+            Shop 8, 143-151 Military Road, Neutral Bay, NSW 2089
+            info@qualiadevelopment.com.au
+          </h6>
+          <h6
+            style={{
+              fontSize: 16,
+              fontWeight: "lighter",
+              width: "100%",
+              textAlign: "right",
               color: "#919098",
               margin: 0,
             }}

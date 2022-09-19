@@ -28,15 +28,6 @@ const Container = styled(animated.div)`
   position: relative;
 `;
 
-const Text = styled(animated.h5)`
-  font-size: 34px;
-  font-weight: 200;
-  color: #353535;
-  letter-spacing: 20px;
-  margin: unset;
-  text-transform: uppercase;
-`;
-
 const Img = styled(animated.img)`
   height: ${iHeight * 0.7}px;
   width: ${iWidth}px;

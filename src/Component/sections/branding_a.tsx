@@ -1,21 +1,60 @@
-import React, { ReactElement, useEffect } from "react";
+import React, {
+  ReactElement,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { animated, config, useSpring } from "react-spring";
 import styled from "styled-components";
 import { menuItem } from "../../Enum";
-import { useWindowResize } from "../../Hooks";
+import { useParallax, useScrollStatus, useWindowResize } from "../../Hooks";
 import useMediaQuery from "../../Hooks/useDeviceInfo";
 
 const a = require("../../Asset/Img/A.png");
 const bg = require("../../Asset/Img/section_3.png");
+
+function useIsInViewport(ref: React.MutableRefObject<HTMLDivElement | null>) {
+  const [isIntersecting, setIsIntersecting] = useState(false);
+
+  const observer = useMemo(
+    () =>
+      new IntersectionObserver(([entry]) =>
+        setIsIntersecting(entry.isIntersecting)
+      ),
+    []
+  );
+
+  useEffect(() => {
+    const el = ref.current as Element;
+
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [ref, observer]);
+
+  return isIntersecting;
+}
+
 const Branding_A = ({
   currentSection,
+  scrollPosition,
+  offset,
 }: {
   currentSection: number;
+  scrollPosition: number;
+  offset: number;
 }): ReactElement => {
   const { size } = useWindowResize();
   const iHeight = size.height;
   const iWidth = size.width;
   const matchesS = useMediaQuery("(min-width: 768px)");
+  const [maskSize, setMaskSize] = useState<number>(820);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [preOffset, setPreOffset] = useState<number>(0);
+  const [isEntered, setEntry] = useState<boolean>(false);
 
   useEffect(() => {
     if (currentSection === 1) {
@@ -39,6 +78,27 @@ const Branding_A = ({
     config: config.molasses,
   }));
 
+  useEffect(() => {
+    if (offset.toFixed(2) === "0.42") {
+      setEntry(true);
+    }
+
+    if (isEntered) {
+      if (offset > preOffset) {
+        setMaskSize((pre) => pre + offset * 100);
+      } else {
+        if (maskSize > 820) setMaskSize((pre) => pre + offset * -100);
+      }
+    }
+
+    setPreOffset(offset);
+
+    if (offset < 0.31) {
+      setEntry(false);
+      setMaskSize(820);
+    }
+  }, [offset]);
+
   return (
     <Container height={iHeight}>
       <BrandingContainer height={iHeight}>
@@ -60,7 +120,7 @@ const Branding_A = ({
                 fill="none"
                 stroke="#7d807e"
                 d={`
-          M 200 0 L ${iWidth * 0.45} ${iHeight}
+          M 550 0 L ${iWidth * 0.59} ${iHeight}
           `}
               />
             </animated.svg>
@@ -81,7 +141,7 @@ const Branding_A = ({
 
           <SVGContainer2 style={styles}>
             <animated.svg
-              viewBox={`0 0 ${iWidth * 0.45} ${iHeight * 0.65}`}
+              viewBox={`0 0 ${iWidth * 0.35} ${iHeight * 0.65}`}
               xmlns="http://www.w3.org/2000/svg"
               style={{
                 height: iHeight * 0.65,
@@ -96,15 +156,20 @@ const Branding_A = ({
                 fill="none"
                 stroke="#7d807e"
                 d={`
-          M ${iWidth * 0.3} 0 L 0 ${iHeight * 0.65}
+          M ${iWidth * 0.12} 0 L 0 ${iHeight * 0.65}
           `}
               />
             </animated.svg>
           </SVGContainer2>
         </ImgContainer>
       </BrandingContainer>
-      <BGContainer height={iHeight}>
-        <Img style={Imgstyles} src={bg} height={matchesS ? iHeight : iWidth} />
+      <BGContainer height={iHeight} ref={containerRef}>
+        <Img
+          style={Imgstyles}
+          src={bg}
+          height={matchesS ? iHeight : iWidth}
+          masksize={maskSize}
+        />
       </BGContainer>
     </Container>
   );
@@ -113,6 +178,7 @@ const Branding_A = ({
 const Container = styled.div<{ height: number }>`
   height: ${(props) => props.height * 1.8}px;
   width: 100%;
+  background-color: #ffffff;
 `;
 
 const BrandingContainer = styled.div<{ height: number }>`
@@ -143,7 +209,7 @@ const ImgContainer = styled(animated.div)<{
   matches: string;
 }>`
   height: 100%;
-  width: ${(props) => (props.matches === "true" ? "45%" : "100%")};
+  width: ${(props) => (props.matches === "true" ? "567px" : "100%")};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -193,17 +259,20 @@ const BGContainer = styled(animated.div)<{ height: number }>`
   flex-direction: row;
   position: relative;
   margin-top: -10%;
-  padding-left: 10%;
+  z-index: 990;
 `;
 
-const Img = styled(animated.img)<{ height: number }>`
+const Img = styled(animated.img)<{ height: number; masksize: number }>`
   height: ${(props) => props.height}px;
-  width: ${(props) => props.height}px;
+  width: 100%;
   object-fit: cover;
   z-index: 10;
-  border-radius: 50%;
+  mask-image: url(https://upload.wikimedia.org/wikipedia/commons/a/a0/Circle_-_black_simple.svg);
   position: relative;
-  z-index: 90;
+  z-index: 990;
+  mask-size: ${(props) => props.masksize}px;
+  mask-repeat: no-repeat;
+  mask-position: center;
 `;
 
 export default Branding_A;
