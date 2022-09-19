@@ -9,7 +9,7 @@ import {
   useWindowResize,
 } from "../Hooks";
 import useMediaQuery from "../Hooks/useDeviceInfo";
-const fg = require("../Asset/Video/logo.mov");
+
 const bg = require("../Asset/Video/background.mp4");
 
 const EntryAni = ({
@@ -76,24 +76,7 @@ const EntryAni = ({
           setExit(true);
         }}
       />
-      <SubContainer style={props}>
-        <ReactPlayer
-          url={fg}
-          muted
-          id="videoPlayer"
-          loop
-          playing={play}
-          height={200}
-          width={size.width}
-          style={{
-            minHeight: 200,
-            minWidth: size.width,
-          }}
-          onEnded={() => {
-            setExit(true);
-          }}
-        />
-      </SubContainer>
+      <SubContainer style={props}></SubContainer>
     </Container>
   );
 };
